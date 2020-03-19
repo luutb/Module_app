@@ -12,21 +12,25 @@ export default class MainView extends Component
 
                 <View>
                     <View style={styles.button}>
-                         <Button title="CurrencyView" onPress={ () => {}}/>
+                         <TouchableOpacity title="CurrencyView" onPress={ () =>this.clickButton(1)}/>
                     </View>
                     <View style={styles.button}>
-                         <Button title="EnvironmentView" onPress={ () => {}}/>
+                         <TouchableOpacity title="EnvironmentView" onPress={ () =>this.clickButton(2)}/>
                     </View>
                     <View style={styles.button}>
-                        <Button title="JourneysView" onPress={ () => {}}/>
+                        <TouchableOpacity title="JourneysView" onPress={ () =>this.clickButton(3)}/>
                     </View>
                     <View style={styles.button}>
-                        <Button title="CalendarView" onPress={ () => {}}/>
+                        <TouchableOpacity title="CalendarView" onPress={ () =>this.clickButton(4)}/>
                     </View>
                 </View>
             </View>
         )
     }
+clickButton(id){
+
+this.props.TranferView(id);
+}
 }
 
 const styles = StyleSheet.create({
