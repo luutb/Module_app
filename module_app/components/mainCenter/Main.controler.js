@@ -7,7 +7,16 @@ export default class MainController extends Component
 {
     render(){
         return(
-            <MainView></MainView>
+            <MainView
+
+clickButton= this.clickButton.bind(this)></MainView>
         )
-    }
+    clickButton(id)
+{
+switch(id){
+
+case 1:
+This.navigation.navigate()
+}
+}
 }
