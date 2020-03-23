@@ -7,7 +7,7 @@ export default class CurrencyController extends Component
 {
     render(){
         return(
-            <CurrencyView></CurrencyView>
+            <CurrencyView {...this.props}></CurrencyView>
         )
     }
 }
