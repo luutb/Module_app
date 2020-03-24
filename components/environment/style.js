@@ -79,6 +79,14 @@ const style = StyleSheet.create({
       justifyContent:'center',
       flex:1.3,
 
+    },
+    view_char:{
+        flex:1,justifyContent:'center'
+
+    },
+    char_button:{
+        textAlign:"center",
+        fontSize:15
     }
 })
 

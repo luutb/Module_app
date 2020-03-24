@@ -12,6 +12,7 @@ const key = '3fad5db1-51ee-4f4d-a5bf-bc6797d0eb4b';
   }
   export function ApiTest (data){
        let query = this.makeParam(data);
+       console.log(query)
        
     return fetch('http://api.airvisual.com/v2/nearest_city'+query,{
         method: 'GET',

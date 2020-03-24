@@ -3,5 +3,6 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">api.airvisual.com</domain>
         <domain includeSubdomains="true">airvisual.com</domain>
+        <domain includeSubdomains="true">staging-website-api.airvisual.net</domain>
     </domain-config>
 </network-security-config>

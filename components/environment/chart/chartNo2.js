@@ -1,11 +1,11 @@
 import React,{ Component } from "react";
 import {View,Text,ScrollView,Image,Dimensions} from 'react-native'
-import CallApi from '../CallApi/ApiEnvironment'
+
 import {
     LineChart 
   } from "react-native-chart-kit";
 
-export default class CharPM extends Component{
+export default class CharNo2 extends Component{
 
     render(){
         return(
@@ -15,7 +15,7 @@ export default class CharPM extends Component{
                             labels: this.props.chart.data,
                             datasets: [
                                 {
-                                data:  this.props.chart.pm
+                                data:  this.props.chart.no2s
                                 }
                             ]
                             }}
