@@ -5,6 +5,7 @@ import JourneysController from './components/journeys/Journeys.controler';
 import EnvironmentController from './components/environment/Environment.controler'
 import CurrencyController from './components/currencyConversion/Currency.controler'
 import MenuLeft from './components/menuLeft/menuLeftCenter'
+import DetailController from "./components/environment/detailInformation.cotroller";
 
 export default
 [
@@ -36,6 +37,11 @@ export default
     {
         name:"MenuLeft",
         component: MenuLeft,
+       
+    },
+    {
+        name:"Detail",
+        component: DetailController,
        
     }
     

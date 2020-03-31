@@ -1,13 +1,10 @@
 import React,{Component} from 'react'
-import {View,Text,ScrollView,Image,Dimensions} from 'react-native'
+import {View,Text,ScrollView,Image} from 'react-native'
 import Header from '../header/Header.view'
 import style from './style'
 import SwitchChart from './chart/chart'
-import {
-    LineChart 
-  } from "react-native-chart-kit";
-import { TouchableOpacity } from 'react-native-gesture-handler'
-export default class EnvironmentView extends Component
+
+export default class DetailView extends Component
 {
     constructor(props){
         super(props)
@@ -32,10 +29,12 @@ export default class EnvironmentView extends Component
         }
        
     }
+   
     
     componentWillReceiveProps(nProps){
-        if (nProps.data.current != null ){
-            var value = nProps.data.current.pollution.aqius
+       
+        if (nProps.current.aqi != null ){
+            var value = nProps.current.aqi
                 if(value<=50){
                     
                     this.setState({backgroundColor:'#CC0000', note:'Tốt'})
@@ -71,8 +70,8 @@ export default class EnvironmentView extends Component
                 <Header {...this.props}
                     title={this.state.title}></Header>
                 <View style={style.city_country}>
-                    <Text style={style.city}>Hà Nội</Text>
-                    <Text style={style.country}>Việt Nam</Text>
+                    <Text style={style.city}>{this.props.city}</Text>
+                    <Text style={style.country}>{this.props.country}</Text>
                 </View>
                 <View style={{height:150, borderWidth:1, flex:2}}>
                     <View style={[style.view_aqius,{backgroundColor:this.state.backgroundColor}]}> 
@@ -80,7 +79,7 @@ export default class EnvironmentView extends Component
                             <View style={style.view_aqius_aqius}>
                                 <View style={{flex:0.2}}></View>
                                 <View style={{flex:1}}>
-                                <Text style={{textAlign:"center"},style.view_aqius_aqius }>{this.props.pollution.aqius}</Text>
+                                <Text style={{textAlign:"center"},style.view_aqius_aqius }>{this.props.current.aqi}</Text>
                                 <Text style={{textAlign:"center", }}>AQI US</Text>
                                 </View>
                                 <View style={{flex:0.3}}></View>
@@ -93,20 +92,20 @@ export default class EnvironmentView extends Component
                     <View style={style.view_contetn}>
                         <Image source={require('../Img/humidity.png')} style={style.weather_img}></Image>
                         <View style={style.content_weather}>
-                            <Text >{this.props.weather.hu}%</Text>
+                            <Text >{this.props.current.humidity}%</Text>
                         </View>
                         
                     </View>
                     <View style={style.view_contetn}>
                         <Image source={require('../Img/wind.png')} style={style.weather_img}></Image>
                         <View style={style.content_weather}>
-                            <Text >{this.props.weather.ws}(m/s)</Text>
+                            <Text >(m/s)</Text>
                         </View>
                     </View>
                     <View style={style.view_contetn}>
                         <Image source={require('../Img/ipressure.png')} style={style.weather_img}></Image>
                         <View style={style.content_weather}>
-                            <Text >{this.props.weather.pr}(hPa)</Text>
+                            <Text >{this.props.current.pressure}(hPa)</Text>
                         </View>
                     </View>
                 </View>
@@ -140,4 +139,5 @@ export default class EnvironmentView extends Component
         )
         
     }
+
 }

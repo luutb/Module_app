@@ -3,6 +3,9 @@ import {View,Text} from 'react-native'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import EnvironmentController from '../environment/Environment.controler'
 import CurrencyController from '../currencyConversion/Currency.controler'
+import Test from '../environment/test'
+import RankAqi from '../environment/rankAqi.controller'
+import RankCity from '../environment/rankCity.controller'
 
 const Drawer = createDrawerNavigator();
 
@@ -22,7 +25,11 @@ export default class MenuLeft extends Component
             case 2:{
                 return(
                     <Drawer.Navigator initialRouteName="Environment">
-                        <Drawer.Screen name="Environment" component={EnvironmentController}></Drawer.Screen>         
+                        <Drawer.Screen name="Environment" component={EnvironmentController}></Drawer.Screen>   
+                        <Drawer.Screen name ="Map" component={Test}></Drawer.Screen>
+                        <Drawer.Screen name ="Rank AQI" component={RankAqi}></Drawer.Screen>
+                        <Drawer.Screen name ="Rank City" component={RankCity}></Drawer.Screen>
+                        
                     </Drawer.Navigator>
                  )
             }

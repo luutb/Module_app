@@ -28,7 +28,7 @@ constructor(){
             
             CallApi.ApiTest({lat:location.latitude,lon:location.longitude,key:KEY}).then((response)=>{
              
-                console.log('abc',response)
+               
                 this.setState({data:response.data,pollution:response.data.current.pollution,weather:response.data.current.weather})
            
             })
@@ -61,8 +61,7 @@ constructor(){
                     // no2
                     // co
                     cos.push(k.co.concentration)
-
-                    
+ 
                     let currentDate = new Date( k.ts );                  
                     var strTime = currentDate.getHours()+":"+currentDate.getMinutes();
                     date.push(strTime);
@@ -97,7 +96,7 @@ constructor(){
 
                 location=[];
                 location.push(response.results)
-                console.log('city',location)
+               
             })
            
         })
@@ -110,7 +109,7 @@ constructor(){
     
   
     render(){     
-        console.log('poly',this.state.pollution)
+       
         return(
             
             <EnvironmentView 

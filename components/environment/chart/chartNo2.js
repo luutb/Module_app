@@ -12,7 +12,7 @@ export default class CharNo2 extends Component{
             <View>               
                 <LineChart
                             data={{
-                            labels: this.props.chart.data,
+                            labels: this.props.chart.date,
                             datasets: [
                                 {
                                 data:  this.props.chart.no2s
