@@ -65,22 +65,26 @@ export default class EnvironmentView extends Component
      
         let value = this.state.chart;
         let leg = value.pm.length
+        console.log(this.props.pollution.aqius)
       
         return(
-            <ScrollView>
+            
+            <ScrollView style={{}}>
                 <Header {...this.props}
                     title={this.state.title}></Header>
+            <View style={{backgroundColor:"#FFFFFF"}}>
                 <View style={style.city_country}>
                     <Text style={style.city}>Hà Nội</Text>
                     <Text style={style.country}>Việt Nam</Text>
                 </View>
-                <View style={{height:150, borderWidth:1, flex:2}}>
+                <View style={{height:200, flex:2,backgroundColor:"#FFFFFF", borderBottomWidth:0.4,borderBottomColor:'black'}}>
+                   
                     <View style={[style.view_aqius,{backgroundColor:this.state.backgroundColor}]}> 
                         <Image source={this.state.img} style={style.view_aqius_img}></Image>
                             <View style={style.view_aqius_aqius}>
                                 <View style={{flex:0.2}}></View>
                                 <View style={{flex:1}}>
-                                <Text style={{textAlign:"center"},style.view_aqius_aqius }>{this.props.pollution.aqius}</Text>
+                                    <Text style={{textAlign:"center"},style.view_aqius_aqius }>{this.props.pollution.aqius}</Text>
                                 <Text style={{textAlign:"center", }}>AQI US</Text>
                                 </View>
                                 <View style={{flex:0.3}}></View>
@@ -112,30 +116,40 @@ export default class EnvironmentView extends Component
                 </View>
                     
                 </View>
-                <View style={{flex:1, flexDirection:'row', height:100,justifyContent: 'space-evenly', marginTop:20}}>
-                    <View style={{}}>
-                        <View style={{flex:1}}>
-                            <Image></Image>
+                <View style={{margin:10}}>
+                    <View style ={{flex:1}}> 
+                        <Text style={{textAlign:'center', fontWeight:'bold',fontSize:20}}>Các chất gây ô nhiễm</Text>
+                    </View>
+                <View style={{flex:1, flexDirection:'row', marginTop:10}}>
+                    
+                    <View style={{flex:3,justifyContent:'center'}}>
+                        <View style={style.weather_text}>
+                            <View><Text style={{color:'red'}}>PM25 µg/m³</Text></View>
                             <View><Text>{value.pm[leg-1]}</Text></View>
                         </View>
-                        <View style={{flex:1}}>
-                            <Image></Image>
+                        <View style={style.weather_text}>
+                        <View><Text style={{color:'red'}}>NO2 µg/m³</Text></View>
                             <View><Text>{value.no2s[leg-1]}</Text></View>
                         </View>
                     </View>
-                    <View style={{}}>
-                        <View style={{flex:1}}>
-                            <Image></Image>
+                    <View style={{flex:3,justifyContent:'center'}}>
+                        <View style={style.weather_text}>
+                        <View><Text style={{color:'red'}}>PM10 µg/m³</Text></View>
                             <View><Text>{value.pm10s[leg-1]}</Text></View>
                         </View>
-                        <View style={{flex:1}}>
-                            <Image></Image>
+                        <View style={style.weather_text}>
+                            <View><Text style={{color:'red'}}>CO µg/m³</Text></View>
                             <View><Text>{value.cos[leg-1]}</Text></View>
                         </View>
                     </View>
                 </View>
-                <SwitchChart chart={this.state.chart}></SwitchChart>
-                          
+                </View> 
+                <View style={{marginTop:20,marginTop:10}}>
+                    <Text style={{fontWeight:'bold',fontSize:20, textAlign:'center',marginBottom:20}}>Biểu đồ ô nhiễm</Text>
+                    <SwitchChart chart={this.state.chart} ></SwitchChart>
+                </View>
+                </View> 
+                      
             </ScrollView>
         )
         

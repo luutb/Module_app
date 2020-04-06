@@ -19,6 +19,7 @@ constructor(){
     }
 }
     componentDidMount(){
+       
         GetLocation.getCurrentPosition({
             enableHighAccuracy: true,
             timeout: 15000,
@@ -65,8 +66,6 @@ constructor(){
                     let currentDate = new Date( k.ts );                  
                     var strTime = currentDate.getHours()+":"+currentDate.getMinutes();
                     date.push(strTime);
-
-
                 }
             
                 aqis = aqis.reverse();
@@ -109,7 +108,7 @@ constructor(){
     
   
     render(){     
-       
+        
         return(
             
             <EnvironmentView 

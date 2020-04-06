@@ -27,10 +27,11 @@ const style = StyleSheet.create({
     },
     view_aqius:{
         flex:1.5,
-        borderWidth:1,
+       
         alignContent:'center',
         flexDirection:'row',
         height:100,
+        
         margin:5
     },
     view_aqius_img:{
@@ -61,6 +62,7 @@ const style = StyleSheet.create({
     view_weather:{
         flex:0.7,
         flexDirection:"row",
+        backgroundColor:"#FFFFFF",
       
         margin:5
     },
@@ -87,6 +89,10 @@ const style = StyleSheet.create({
     char_button:{
         textAlign:"center",
         fontSize:15
+    },
+    weather_text:{
+        flex:1,paddingLeft:10,borderLeftWidth:1,borderLeftColor:'red',
+        padding:10
     }
 })
 

@@ -36,9 +36,8 @@ export function ApiChart (){
 }
 
 
-    export function Test (){
-       
-        
+export function Test (){
+              
     return fetch('https://tygia.com/json.php?ran=0&rate=1&gold=0&bank=VIETCOM&date=now',{
         method: 'GET',
         headers: this.getHeader({"Token":"Hall"}),       
@@ -60,6 +59,8 @@ export function ApiChart (){
       }
       return query;
 }
+
+
     export function getCity(location){  
         
         return fetch("https://maps.googleapis.com/maps/api/geocode/json?latlng="+location.lat+","+location.lon+"&key=AIzaSyBDQHOnkXBu5C_CVGOuQ9F8UN2y09m6RL8",{
@@ -79,7 +80,7 @@ export function ApiChart (){
 
 
    // http://api.airvisual.com/v2/states?country={}&key=fad5db1-51ee-4f4d-a5bf-bc6797d0eb4b
-   export function getRankCity(country){
+ export function getRankCity(country){
     return fetch("http://api.airvisual.com/v2/states?country="+country+"&key=3fad5db1-51ee-4f4d-a5bf-bc6797d0eb4b",{
         method: 'GET',
         headers: this.getHeader({"Token":"Hall"}),       

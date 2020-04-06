@@ -20,7 +20,7 @@ export default class DetailController extends Component
         var id = this.props.route.params.id
         console.log(id)
         CallApi.setId(id).then((response)=>{
-            
+           
             this.setState({
                 city:response.name,
                 country: response.country,

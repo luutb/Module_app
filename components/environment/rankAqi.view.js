@@ -39,7 +39,7 @@ export default class RankView extends Component
         
     }
     render(){
-       
+       console.log('window', window.value)
         return(
             <View>
                 <Header title={this.state.title}></Header>

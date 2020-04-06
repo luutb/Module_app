@@ -22,9 +22,7 @@ export default class MainView extends Component
                     </View>
                     <View style={styles.button}>
                         <Button title="CalendarView" onPress={ () => this.onSubmit(4)}/>
-                    </View>
-                    
-                    
+                    </View>                                      
                 </View>
             </View>
         )
