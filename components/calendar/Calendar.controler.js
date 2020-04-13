@@ -1,66 +1,113 @@
 import React,{Component} from 'react'
 import {View,Text} from 'react-native'
 import CalendarView from './Calendar.view'
-
+import CalendarService from '../../services/CalendarService'
 
 const months = [1,2,3,4,5,6,7,8,9,10,11,12]
-const weak = [31,28,31,30,31,30,31,3130,31,30,31]
-
+const weak = [31,28,31,30,31,30,31,31,30,31,30,31]
+const dd = new Date()
 export default class CalendarController extends Component
 {
 
     constructor(){
         super();
         this.state={
-            day:''
+            
+            day:'',
+            mm: dd.getMonth() + 1 ,
+            yy: dd.getFullYear()
         }
-        
+               
     }
-
-    getDay_now(dd,mm,yy){
-
-    var a = Math.floor((14 - mm) / 12);
-    var y = yy+4800-a;
-    var m = mm+12*a-3;
-
-
-    var jd = dd + Math.floor((153*m+2)/5) + 365*y + Math.floor(y/4) - Math.floor(y/100) + Math.floor(y/400) - 32045;
-    if (jd < 2299161) {
-        jd = dd + Math.floor((153*m+2)/5) + 365*y + Math.floor(y/4) - 32083;
+ 
+    calcDate(){
+        // tháng/năm của tháng tiếp theo
+        let nextMonth = this.state.mm + 1 ;
+        let nextYear = this.state.yy;
+        // tháng/năm của tháng trước đó
+        let lastMonth = this.state.mm - 1;
+        let lastYear =  this.state.yy;
         
-    }
-    console.log('jd_get',jd%7)
-    return (jd%7);
-        
-    }
-
-    
-    getDayfirst(dd,mm,yy){
-
-        console.log(mm)
-        if(mm>=3||m==1){
-           var end_day = weak[mm-1]
-        
+        // sang năm sau
+        if (nextMonth >12){
+            nextMonth = 1;
+            nextYear++;
         }
-       
-        var JMD = this.getDay_now(dd,mm,yy) 
-
-
-        var result = Array.apply(0, Array(35)).map(function(i){ return 0;});
-            for (var i = JMD; i < end_day+JMD; i++) {
-                result[i] = (i - JMD) + 1;
-            }
-            console.log(result)
-            return result;
-                
+        // lùi 1 năm
+        if (lastYear  <= 0){
+            lastMonth = 12;
+            lastYear--;
+        }
+        // tính bảng ngày tháng sau
+        let  daysInNextMonth= CalendarService.getMonth(nextMonth,nextYear);
+        // tính bảng ngày tháng trước đó
+        let  daysInLastMonth= CalendarService.getMonth(lastMonth,lastYear);
+        // tính bảng ngày tháng hiện tại
+        let daysInMonth = CalendarService.getMonth(this.state.mm,this.state.yy);
+        //
+        this.setState({day:this.convertToTable(daysInMonth,daysInLastMonth,daysInNextMonth)})
     }
     componentDidMount(){
-       
-    this.setState({day:this.getDayfirst(1,4,2020)})
+        this.calcDate();
+    }
+
+    convertToTable(dayInMonth,daysInLastMonth,daysInNextMonth){
+        var result = [];
+        // số ô trắng đầu tiên -> sau sẽ fill bằng thang rước
+        let emptyCells = (dayInMonth[0].jd+1)%7;
+        // tính số lượng dòng trong lịch
+        let numRow = Math.floor((dayInMonth.length+emptyCells)/7)+1;
+        var nextMonDay = 0;
+        // tạo bảng danh sách ngày
+        for (var i = 0 ;i< numRow; i++){
+            // for 7 ngày
+            for (var j = 0 ; j< 7; j++){
+                var k = 7*i+j
+                // nếu l< số ô trắng thì đó là các ô chứ ngày tháng trước đó
+                 if (k < emptyCells){
+                    //  ngày của tháng trước
+                    // lấy số lượng ngày của tháng trước đó
+                    let numDayInLastMonth = daysInLastMonth.length;
+                    // lấy ngày âm
+                    let ld1 = daysInLastMonth[numDayInLastMonth-(emptyCells-k)];
+                    //
+                    result.push({solar:numDayInLastMonth-(emptyCells-k)+1,ld:ld1.day,outner:true})
+
+                 }else{
+                    // ngay duong
+                    let solar = k - emptyCells + 1;
+                    // ngay am
+                    let ld1 = dayInMonth[k-emptyCells]; 
+                    // nếu  ld1= null nghĩ là  k đã vượt quá số ngày trong tháng -> hiển thị các ngày tháng tiếp theo
+                    if (ld1 != null)
+                        result.push({solar:solar,ld:ld1.day})
+                    else{
+                        // các ngày tháng thiếp theo
+                        let len = daysInLastMonth.length;
+                        let ld1 = daysInNextMonth[nextMonDay++];
+                        //
+                        result.push({solar:nextMonDay,ld:ld1.day,outner:true});
+                    }
+                 }
+            }
+        }
+        return result;
+
     }
     render(){
         return(
-            <CalendarView day ={this,this.state.day}></CalendarView>
+            <CalendarView day ={this.state.day}
+                        month = {this.state.mm}
+                        getMonths ={this.getMonths.bind(this)}
+                        
+            ></CalendarView>
         )
+    }
+    getMonths(months,years){
+        // dung thế nay để sửa thông tin trong state ngay ko tốn 1 lần render 
+        // vì trong calcDate đã gọi setState để reRender 1 lần rồi.
+        this.state.mm = months;
+        this.state.yy = years;
+        this.calcDate();
     }
 }

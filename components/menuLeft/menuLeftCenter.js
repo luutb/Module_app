@@ -7,6 +7,7 @@ import Test from '../environment/test'
 import RankAqi from '../environment/rankAqi.controller'
 import RankCity from '../environment/rankCity.controller'
 import CalendarController from '../calendar/Calendar.controler';
+import HomeController from '../calendar/Home.controller';
 
 const Drawer = createDrawerNavigator();
 
@@ -42,8 +43,11 @@ export default class MenuLeft extends Component
             }
             case 4:{
                 return(
-                    <Drawer.Navigator initialRouteName="Calendar">
-                        <Drawer.Screen name="Calendar" component={CalendarController}></Drawer.Screen>        
+                    <Drawer.Navigator initialRouteName="Home">
+                         <Drawer.Screen name="Home" component={HomeController}></Drawer.Screen>
+                        <Drawer.Screen name="Calendar" component={CalendarController}></Drawer.Screen>
+                       
+                                       
                     </Drawer.Navigator>
                  )
             }
