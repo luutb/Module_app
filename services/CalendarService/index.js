@@ -1,5 +1,6 @@
 import {
-    TK13,TK14,TK15,TK16,TK17,TK18,TK19,TK20,TK21,TK22
+	TK13,TK14,TK15,TK16,TK17,TK18,TK19,TK20,TK21,TK22,
+	CAN,CHI,TIETKHI,GIO_HD,PI
 } from './resource'
 
 function LunarDate(dd, mm, yy, leap, jd) {
@@ -8,6 +9,25 @@ function LunarDate(dd, mm, yy, leap, jd) {
 	this.year = yy;
 	this.leap = leap;
 	this.jd = jd;
+}
+
+function SunLongitude(jdn) {
+	var T, T2, dr, M, L0, DL, lambda, theta, omega;
+	T = (jdn - 2451545.0 ) / 36525;  
+	T2 = T*T;
+	dr = PI/180; 
+	M = 357.52910 + 35999.05030*T - 0.0001559*T2 - 0.00000048*T*T2; // mean anomaly, degree
+	L0 = 280.46645 + 36000.76983*T + 0.0003032*T2; // mean longitude, degree
+	DL = (1.914600 - 0.004817*T - 0.000014*T2)*Math.sin(dr*M);
+	DL = DL + (0.019993 - 0.000101*T)*Math.sin(dr*2*M) + 0.000290*Math.sin(dr*3*M);
+    theta = L0 + DL; // true longitude, degree
+    
+    omega = 125.04 - 1934.136 * T;
+    lambda = theta - 0.00569 - 0.00478 * Math.sin(omega * dr);
+    
+    lambda = lambda*dr;
+	lambda = lambda - PI*2*(INT(lambda/(PI*2))); // Normalize to (0, 2*PI)
+    return lambda;
 }
 
 function INT(d) {
@@ -154,13 +174,10 @@ function getSolarDate(dd, mm, yyyy) {
 	var ld = lm.jd + dd - 1;
 	return jdn2date(ld);
 }
-
-function getYearCanChi(year) {
-//	return CAN[(year+6) % 10] + " " + CHI[(year+8) % 12];
-return "cai nay sua sau";
+function getSolarTerm(dayNumber,timeZone){
+	return INT(SunLongitude(dayNumber - 0.5 -timeZone/24.0)/PI*12);
 }
-
-
+ 
 function getMonth(mm, yy) {
 	var ly1, ly2, tet1, jd1, jd2, mm1, yy1, result, i;
 	if (mm < 12) {
@@ -197,11 +214,66 @@ function getMonth(mm, yy) {
 	return result;
 }
 
+//CAN CHI 
+function getYearCanChi(year) {
+	// tinh căn chi theo công thứ
+	return CAN[(year+6) % 10] + " " + CHI[(year+8) % 12];
+}
+
+
+function getDayTietKhi(jd){ 
+	return TIETKHI[getSolarTerm(jd+1,7)];// GMT+7 - vietnam
+}
+
+
+
+function getCanHour0(jdn) {
+	return CAN[(jdn-1)*2 % 10];
+}
+
+function getGioHoangDao(jd) {
+	var chiOfDay = (jd+1) % 12;
+	var gioHD = GIO_HD[chiOfDay % 6]; 
+	var ret = "";
+	var count = 0;
+	for (var i = 0; i < 12; i++) {
+		if (gioHD.charAt(i) == '1') {
+			ret += CHI[i];
+			ret += ' ('+(i*2+23)%24+'-'+(i*2+1)%24+')';
+			if (count++ < 5) ret += ', ';
+			if (count == 3) ret += '\n';
+		}
+	}
+	return ret;
+}
+
+function getCanChi(lunar) {
+	var dayName, monthName, yearName;
+	dayName = CAN[(lunar.jd + 9) % 10] + " " + CHI[(lunar.jd+1)%12];
+	monthName = CAN[(lunar.year*12+lunar.month+3) % 10] + " " + CHI[(lunar.month+1)%12];
+	if (lunar.leap == 1) {
+		monthName += " (nhuận)";
+	}
+	yearName = getYearCanChi(lunar.year);
+	return new Array(dayName, monthName, yearName);
+}
+
+
+function getDayName(jd){
+	return  CAN[(jd + 9)% 10] + " " + CHI[(jd+1)%12];
+}
+
 
 export default{
     getMonth,
     decodeLunarYear,
     getLunarDate,
     getSolarDate,
-    getYearCanChi
+	getYearCanChi,
+	getGioHoangDao,
+	getCanChi,
+	getDayName,
+	getDayTietKhi,
+	getCanHour0,
+	CHI,CAN
 }

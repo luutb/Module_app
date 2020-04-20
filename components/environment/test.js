@@ -1,6 +1,7 @@
 import React,{ Component } from "react";
 import {View,StyleSheet,Text,TouchableOpacity,Modal,Button} from "react-native"
 import MapboxGL from '@react-native-mapbox-gl/maps';
+ // "@react-native-mapbox-gl/maps": "^8.0.0-rc1",
 import * as CallApi from '../CallApi/ApiEnvironment'
 const ACCESS_TOKEN = 'pk.eyJ1IjoibHV1dGIwNjAzIiwiYSI6ImNrODVueGk1cTA4dmMzZGp4NDE5bXh3djcifQ.3_p8MVUCQHRkrueMJ5G2KA'
 const KEY = '3fad5db1-51ee-4f4d-a5bf-bc6797d0eb4b'

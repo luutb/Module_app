@@ -1,9 +1,11 @@
 import React,{Component} from 'react'
-import {View,Text, Alert} from 'react-native'
+import {View,Text, Alert,Dimensions,PanResponder} from 'react-native'
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/AntDesign';
 import style from '../../style/calender/styleCalendar'
 
+
+const { width, height } = Dimensions.get("window");
 
 
 const weak_day  = ['CN','T2','T3','T4','T5','T6','T7']
@@ -15,6 +17,7 @@ export default class CalendarView extends Component
             backgroundColor :'#ffffff',
             month:'',
             year:'',
+            dragged:false
         }
     }
 
@@ -58,6 +61,41 @@ export default class CalendarView extends Component
         )
                                         
     }
+    showInfo(item){
+        var text = this.props.getDayInfo(item.jd);
+        alert(text);
+    }
+    getDirectionAndColor = ({ moveX, moveY, dx, dy }) => {
+        if( this.state.dragged){
+            return;
+        }
+        const draggedLeft = dx < -200;
+        const draggedRight = dx > 200;
+   
+        if (draggedLeft || draggedRight) {
+         this.state.dragged = true;
+          if (draggedLeft) {
+              
+             this.setMonth(2)
+          }
+          if (draggedRight) {
+            this.setMonth(1)         
+            }
+        }
+        if (this.state.dd) return this.state.dd;
+      };
+    componentWillMount() {
+        this._panResponder = PanResponder.create({
+          onMoveShouldSetPanResponder: (evt, gestureState) => {
+            this.state.dragged = false;
+              return !!this.getDirectionAndColor(gestureState)},
+          onPanResponderMove: (evt, gestureState) => {
+            this.getDirectionAndColor(gestureState);
+           
+          },
+          onPanResponderTerminationRequest: (evt, gestureState) => true,
+        });
+      }
     render(){
 
         return(
@@ -90,7 +128,7 @@ export default class CalendarView extends Component
                                          <Text style={[style.text,{fontWeight:"100"}]}>{e}</Text>
                                      </View>)}
                  </View>
-                 <View style={{backgroundColor:'#FFFFFF'}}>
+                 <View style={{backgroundColor:'#FFFFFF'}}  {...this._panResponder.panHandlers}>
                     <FlatList
                     horizontal={false}
                     data={this.props.day}
@@ -98,7 +136,7 @@ export default class CalendarView extends Component
                     renderItem={({item}) =>{
                     return( 
                         <View style={[style.tableView,{backgroundColor:this.setDay_now(item)}]}>  
-                            <TouchableOpacity onPress={()=>Alert.alert('ngay dc chon'+':'+item.solar)}>
+                            <TouchableOpacity onPress={()=>this.showInfo(item)}>
                                 <View >
                                   {this.printCell(item)}                 
                                 </View>

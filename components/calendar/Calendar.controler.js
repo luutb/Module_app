@@ -3,9 +3,9 @@ import {View,Text} from 'react-native'
 import CalendarView from './Calendar.view'
 import CalendarService from '../../services/CalendarService'
 
-const months = [1,2,3,4,5,6,7,8,9,10,11,12]
-const weak = [31,28,31,30,31,30,31,31,30,31,30,31]
-const dd = new Date()
+const dd = new Date();
+
+
 export default class CalendarController extends Component
 {
 
@@ -19,7 +19,15 @@ export default class CalendarController extends Component
         }
                
     }
- 
+
+    getDayInfo(jd)
+    {
+        var text = "Ngày "+CalendarService.getDayName(jd)+"\n";
+        text+= "Giờ đầu ngày "+ CalendarService.getCanHour0(jd)+" "+CalendarService.CHI[0]+"\n";
+        text+= "Tiết: "+CalendarService.getDayTietKhi(jd)+"\n";
+        text+= "Giờ Hoàn đạo "+CalendarService.getGioHoangDao(jd);
+        return text;
+    }
     calcDate(){
         // tháng/năm của tháng tiếp theo
         let nextMonth = this.state.mm + 1 ;
@@ -71,7 +79,7 @@ export default class CalendarController extends Component
                     // lấy ngày âm
                     let ld1 = daysInLastMonth[numDayInLastMonth-(emptyCells-k)];
                     //
-                    result.push({solar:numDayInLastMonth-(emptyCells-k)+1,ld:ld1.day,outner:true})
+                    result.push({solar:numDayInLastMonth-(emptyCells-k)+1,jd:ld1.jd,ld:ld1.day,outner:true})
 
                  }else{
                     // ngay duong
@@ -80,13 +88,13 @@ export default class CalendarController extends Component
                     let ld1 = dayInMonth[k-emptyCells]; 
                     // nếu  ld1= null nghĩ là  k đã vượt quá số ngày trong tháng -> hiển thị các ngày tháng tiếp theo
                     if (ld1 != null)
-                        result.push({solar:solar,ld:ld1.day})
+                        result.push({solar:solar,jd:ld1.jd,ld:ld1.day})
                     else{
                         // các ngày tháng thiếp theo
                         let len = daysInLastMonth.length;
                         let ld1 = daysInNextMonth[nextMonDay++];
                         //
-                        result.push({solar:nextMonDay,ld:ld1.day,outner:true});
+                        result.push({solar:nextMonDay,jd:ld1.jd,ld:ld1.day,outner:true});
                     }
                  }
             }
@@ -99,7 +107,7 @@ export default class CalendarController extends Component
             <CalendarView day ={this.state.day}
                         month = {this.state.mm}
                         getMonths ={this.getMonths.bind(this)}
-                        
+                        getDayInfo = {this.getDayInfo.bind(this)}
             ></CalendarView>
         )
     }
