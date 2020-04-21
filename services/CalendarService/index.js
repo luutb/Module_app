@@ -216,7 +216,7 @@ function getMonth(mm, yy) {
 
 //CAN CHI 
 function getYearCanChi(year) {
-	// tinh căn chi theo công thứ
+	// tinh căn chi theo công thứ	
 	return CAN[(year+6) % 10] + " " + CHI[(year+8) % 12];
 }
 

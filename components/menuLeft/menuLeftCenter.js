@@ -28,7 +28,7 @@ export default class MenuLeft extends Component
                 return(
                     <Drawer.Navigator initialRouteName="Environment">
                         <Drawer.Screen name="Environment" component={EnvironmentController}></Drawer.Screen>   
-                        
+                        <Drawer.Screen name="Map" component={Test}></Drawer.Screen>   
                         <Drawer.Screen name ="Rank AQI" component={RankAqi}></Drawer.Screen>
                         <Drawer.Screen name ="Rank City" component={RankCity}></Drawer.Screen>                       
                     </Drawer.Navigator>
